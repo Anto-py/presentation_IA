@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guide des Chatbots IA - Quel assistant te correspond ?</title>
     <meta name="description" content="Découvrez quel chatbot IA correspond le mieux à votre personnalité : ChatGPT, Claude, Gemini, Mistral, et plus encore.">
+    <!-- adapte le chemin si besoin : css/style.css ou style.css -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -180,6 +181,143 @@
         <button class="reset-btn" id="resetBtn">Voir tous les chatbots</button>
     </div>
 
-    <script src="js/script.js"></script>
+    <!-- JS intégré ici : plus besoin de fichier .js séparé -->
+    <script>
+    // Variables globales
+    let currentActiveCard = null;
+
+    // Fonction d'initialisation des cartes
+    function initializeCards() {
+        const cards = document.querySelectorAll('.chatbot-card');
+        const resetBtn = document.getElementById('resetBtn');
+
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                handleCardClick(this);
+            });
+        });
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', resetAllCards);
+        }
+    }
+
+    // Gestion du clic sur une carte
+    function handleCardClick(card) {
+        const resetBtn = document.getElementById('resetBtn');
+        
+        if (currentActiveCard && currentActiveCard !== card) {
+            // Fermer la carte précédente
+            closeCard(currentActiveCard);
+        }
+
+        if (currentActiveCard === card) {
+            // Fermer la carte actuelle si elle est déjà ouverte
+            closeCard(card);
+            currentActiveCard = null;
+            resetBtn.classList.remove('show');
+        } else {
+            // Ouvrir la nouvelle carte
+            openCard(card);
+            currentActiveCard = card;
+            resetBtn.classList.add('show');
+            
+            // Scroll vers la carte active
+            setTimeout(() => {
+                card.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 100);
+        }
+    }
+
+    // Ouvrir une carte
+    function openCard(card) {
+        card.classList.add('active');
+        const description = card.querySelector('.description');
+        if (description) {
+            description.classList.add('show');
+        }
+    }
+
+    // Fermer une carte
+    function closeCard(card) {
+        card.classList.remove('active');
+        const description = card.querySelector('.description');
+        if (description) {
+            description.classList.remove('show');
+        }
+    }
+
+    // Réinitialiser toutes les cartes
+    function resetAllCards() {
+        const resetBtn = document.getElementById('resetBtn');
+        
+        if (currentActiveCard) {
+            closeCard(currentActiveCard);
+            currentActiveCard = null;
+        }
+        
+        resetBtn.classList.remove('show');
+        
+        // Scroll vers le haut
+        window.scrollTo({ 
+            top: 0, 
+            behavior: 'smooth' 
+        });
+    }
+
+    // Animation au chargement
+    function animateOnLoad() {
+        const cards = document.querySelectorAll('.chatbot-card');
+        
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            // Force reflow
+            card.offsetHeight;
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    }
+
+    // Gestion du chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeCards();
+        animateOnLoad();
+    });
+
+    // Gestion du redimensionnement de la fenêtre
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            if (window.innerWidth < 768 && currentActiveCard) {
+                currentActiveCard.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }
+        }, 250);
+    });
+
+    // Fonction utilitaire pour détecter le support tactile
+    function isTouchDevice() {
+        return (('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0) ||
+                (navigator.msMaxTouchPoints > 0));
+    }
+
+    // Ajuster les interactions pour les appareils tactiles
+    if (isTouchDevice()) {
+        document.body.classList.add('touch-device');
+    }
+    </script>
 </body>
 </html>
