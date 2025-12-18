@@ -19,10 +19,9 @@
             --retro-ink: #0D1617;
             --retro-paper: #F2EFE6;
             
-            /* Transparences */
-            --retro-teal-20: rgba(18, 118, 118, 0.2);
-            --retro-orange-15: rgba(228, 99, 46, 0.15);
-            --retro-jaune-20: rgba(227, 165, 53, 0.2);
+            /* Dimensions fixes des cartes */
+            --card-width: 320px;
+            --card-height: 340px;
         }
 
         * {
@@ -49,7 +48,6 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            /* Image de fond — remplace par ton URL */
             background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1920&q=80');
             background-size: cover;
             background-position: center;
@@ -63,7 +61,6 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            /* Vignette radiale : transparent au centre, sombre aux bords */
             background: radial-gradient(
                 ellipse 80% 70% at 50% 50%,
                 rgba(13, 22, 23, 0.3) 0%,
@@ -95,7 +92,6 @@
                 0 0 60px rgba(13, 22, 23, 0.5);
         }
 
-        /* Motifs floraux aux coins */
         .corner-flourish {
             position: absolute;
             width: 50px;
@@ -137,7 +133,6 @@
             opacity: 0.85;
         }
 
-        /* Séparateur Art Nouveau */
         .retro-separator {
             display: flex;
             align-items: center;
@@ -171,30 +166,66 @@
            =========================================== */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
             gap: 24px;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 16px;
+            justify-items: center;
         }
 
         /* ===========================================
-           CARTE CHATBOT — Style Art Nouveau
+           FLIPCARD — Container 3D
            =========================================== */
-        .chatbot-card {
+        .flipcard {
+            width: var(--card-width);
+            height: var(--card-height);
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flipcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flipcard.flipped .flipcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* ===========================================
+           FACES COMMUNES
+           =========================================== */
+        .flipcard-front,
+        .flipcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             background: var(--retro-paper);
             border: 3px solid var(--retro-teal);
             border-radius: 24px 8px 24px 8px;
             box-shadow: 
                 inset 0 0 0 2px var(--retro-orange),
                 0 4px 16px rgba(13, 22, 23, 0.15);
-            cursor: pointer;
-            transition: all 0.3s ease;
             overflow: hidden;
-            position: relative;
         }
 
-        .chatbot-card::before {
+        .flipcard:hover .flipcard-front,
+        .flipcard:hover .flipcard-back {
+            border-color: var(--retro-jaune);
+            box-shadow: 
+                inset 0 0 0 2px var(--retro-orange),
+                0 8px 32px rgba(13, 22, 23, 0.25);
+        }
+
+        /* Barre de gradient en haut */
+        .flipcard-front::before,
+        .flipcard-back::before {
             content: '';
             position: absolute;
             top: 0;
@@ -202,52 +233,37 @@
             right: 0;
             height: 4px;
             background: linear-gradient(90deg, var(--retro-teal), var(--retro-orange), var(--retro-jaune));
-            opacity: 0;
-            transition: opacity 0.3s ease;
         }
 
-        .chatbot-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 
-                inset 0 0 0 2px var(--retro-orange),
-                0 8px 32px rgba(13, 22, 23, 0.25);
-            border-color: var(--retro-jaune);
-        }
-
-        .chatbot-card:hover::before {
-            opacity: 1;
-        }
-
-        .chatbot-card.active {
-            border-color: var(--retro-orange);
-            box-shadow: 
-                inset 0 0 0 2px var(--retro-jaune),
-                0 12px 40px rgba(228, 99, 46, 0.3);
-        }
-
-        .card-header {
+        /* ===========================================
+           FACE AVANT
+           =========================================== */
+        .flipcard-front {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 16px;
-            padding: 20px;
+            justify-content: center;
+            padding: 24px;
+            text-align: center;
         }
 
         .card-icon {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 3px solid var(--retro-teal);
+            border: 4px solid var(--retro-teal);
             background: var(--retro-paper);
-            flex-shrink: 0;
-            transition: border-color 0.3s ease;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease, transform 0.3s ease;
         }
 
-        .chatbot-card:hover .card-icon {
+        .flipcard:hover .card-icon {
             border-color: var(--retro-jaune);
+            transform: scale(1.05);
         }
 
         .card-icon img {
@@ -257,65 +273,112 @@
         }
 
         .card-icon .autre-emoji {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
         }
 
         .card-title {
             font-family: 'Anton', Impact, sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--retro-ink);
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         .card-company {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--retro-teal);
             font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .flip-hint {
+            font-size: 0.8rem;
+            color: var(--retro-orange);
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .flip-hint-icon {
+            display: inline-block;
+            animation: flipHint 2s ease-in-out infinite;
+        }
+
+        @keyframes flipHint {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(20deg); }
         }
 
         /* ===========================================
-           DESCRIPTION (cachée par défaut)
+           FACE ARRIÈRE
            =========================================== */
-        .description {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: all 0.4s ease;
-            padding: 0 20px;
-            background: linear-gradient(180deg, transparent, var(--retro-teal-20));
+        .flipcard-back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            background: linear-gradient(180deg, var(--retro-paper) 0%, rgba(18, 118, 118, 0.1) 100%);
         }
 
-        .description.show {
-            max-height: 300px;
-            opacity: 1;
-            padding: 0 20px 24px;
+        .back-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--retro-teal);
+        }
+
+        .back-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--retro-teal);
+            flex-shrink: 0;
+        }
+
+        .back-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .back-title {
+            font-family: 'Anton', Impact, sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--retro-teal);
         }
 
         .description-quote {
             font-style: italic;
             color: var(--retro-ink);
-            padding: 16px;
+            font-size: 0.88rem;
+            line-height: 1.45;
+            flex: 1;
+            padding: 10px 12px;
             background: var(--retro-paper);
-            border-left: 4px solid var(--retro-orange);
+            border-left: 3px solid var(--retro-orange);
             border-radius: 0 8px 8px 0;
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            margin-bottom: 10px;
         }
 
         .description-profile {
             color: var(--retro-teal);
             font-weight: 600;
-            margin-bottom: 16px;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
+            margin-bottom: 14px;
         }
 
         /* Bouton Pill Retrofuturiste */
         .chatbot-link {
             display: inline-flex;
             align-items: stretch;
+            align-self: flex-start;
             border-radius: 50px;
             border: 3px solid var(--retro-teal);
             overflow: hidden;
@@ -323,6 +386,7 @@
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(13, 22, 23, 0.15);
+            margin-top: auto;
         }
 
         .chatbot-link:hover {
@@ -331,78 +395,21 @@
             border-color: var(--retro-jaune);
         }
 
-        .chatbot-link::before {
-            content: 'Essayer';
+        .chatbot-link-text {
             background: var(--retro-jaune);
             color: var(--retro-ink);
-            padding: 10px 20px;
-            font-size: 0.9rem;
+            padding: 8px 16px;
+            font-size: 0.85rem;
         }
 
-        .chatbot-link::after {
-            content: '»';
+        .chatbot-link-icon {
             background: var(--retro-orange);
             color: var(--retro-paper);
-            width: 44px;
+            width: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        /* ===========================================
-           BOUTON RESET
-           =========================================== */
-        .reset-btn {
-            position: fixed;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            display: inline-flex;
-            align-items: stretch;
-            border-radius: 50px;
-            border: 3px solid var(--retro-teal);
-            overflow: hidden;
-            background: none;
-            cursor: pointer;
-            font-family: inherit;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 24px rgba(13, 22, 23, 0.3);
-            z-index: 100;
-        }
-
-        .reset-btn.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .reset-btn:hover {
-            border-color: var(--retro-jaune);
-            box-shadow: 0 6px 32px rgba(228, 99, 46, 0.4);
-        }
-
-        .reset-btn::before {
-            content: 'Voir tous les chatbots';
-            background: var(--retro-jaune);
-            color: var(--retro-ink);
-            padding: 12px 24px;
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        .reset-btn::after {
-            content: '↑';
-            background: var(--retro-orange);
-            color: var(--retro-paper);
-            width: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: bold;
         }
 
@@ -431,6 +438,11 @@
            RESPONSIVE
            =========================================== */
         @media (max-width: 768px) {
+            :root {
+                --card-width: 300px;
+                --card-height: 320px;
+            }
+
             .page-frame {
                 padding: 12px;
             }
@@ -451,22 +463,28 @@
             }
 
             .cards-grid {
-                grid-template-columns: 1fr;
                 gap: 16px;
                 padding: 0;
             }
 
-            .chatbot-card {
-                border-radius: 16px 6px 16px 6px;
-            }
-
             .card-icon {
-                width: 50px;
-                height: 50px;
+                width: 70px;
+                height: 70px;
             }
 
-            .reset-btn {
-                bottom: 16px;
+            .card-title {
+                font-size: 1.3rem;
+            }
+
+            .description-quote {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            :root {
+                --card-width: 280px;
+                --card-height: 320px;
             }
         }
 
@@ -484,19 +502,19 @@
             }
         }
 
-        .chatbot-card {
+        .flipcard {
             animation: fadeInUp 0.5s ease backwards;
         }
 
-        .chatbot-card:nth-child(1) { animation-delay: 0.05s; }
-        .chatbot-card:nth-child(2) { animation-delay: 0.1s; }
-        .chatbot-card:nth-child(3) { animation-delay: 0.15s; }
-        .chatbot-card:nth-child(4) { animation-delay: 0.2s; }
-        .chatbot-card:nth-child(5) { animation-delay: 0.25s; }
-        .chatbot-card:nth-child(6) { animation-delay: 0.3s; }
-        .chatbot-card:nth-child(7) { animation-delay: 0.35s; }
-        .chatbot-card:nth-child(8) { animation-delay: 0.4s; }
-        .chatbot-card:nth-child(9) { animation-delay: 0.45s; }
+        .flipcard:nth-child(1) { animation-delay: 0.05s; }
+        .flipcard:nth-child(2) { animation-delay: 0.1s; }
+        .flipcard:nth-child(3) { animation-delay: 0.15s; }
+        .flipcard:nth-child(4) { animation-delay: 0.2s; }
+        .flipcard:nth-child(5) { animation-delay: 0.25s; }
+        .flipcard:nth-child(6) { animation-delay: 0.3s; }
+        .flipcard:nth-child(7) { animation-delay: 0.35s; }
+        .flipcard:nth-child(8) { animation-delay: 0.4s; }
+        .flipcard:nth-child(9) { animation-delay: 0.45s; }
     </style>
 </head>
 <body>
@@ -525,163 +543,248 @@
 
             <div class="cards-grid">
                 <!-- ChatGPT -->
-                <div class="chatbot-card" data-chatbot="chatgpt">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <img src="images/chatgpt.png" alt="Logo ChatGPT" onerror="this.parentElement.innerHTML='🤖'">
-                        </div>
-                        <div>
+                <div class="flipcard" data-chatbot="chatgpt">
+                    <div class="flipcard-inner">
+                        <div class="flipcard-front">
+                            <div class="card-icon">
+                                <img src="images/chatgpt.png" alt="Logo ChatGPT" onerror="this.parentElement.innerHTML='🤖'">
+                            </div>
                             <h3 class="card-title">ChatGPT</h3>
                             <p class="card-company">OpenAI</p>
+                            <span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
                         </div>
-                    </div>
-                    <div class="description">
-                        <p class="description-quote">« Je suis direct, je vais à l'essentiel. J'aime quand c'est clair, structuré, efficace. J'optimise, j'itère, je pousse vers l'avant. »</p>
-                        <p class="description-profile">Pour les leaders, les efficaces, ceux qui veulent aller vite.</p>
-                        <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="chatbot-link"></a>
+                        <div class="flipcard-back">
+                            <div class="back-header">
+                                <div class="back-icon">
+                                    <img src="images/chatgpt.png" alt="" onerror="this.parentElement.innerHTML='🤖'">
+                                </div>
+                                <span class="back-title">ChatGPT</span>
+                            </div>
+                            <p class="description-quote">« Je suis direct, je vais à l'essentiel. J'aime quand c'est clair, structuré, efficace. »</p>
+                            <p class="description-profile">Pour les leaders, les efficaces, ceux qui veulent aller vite.</p>
+                            <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="chatbot-link" onclick="event.stopPropagation()">
+                                <span class="chatbot-link-text">Essayer</span>
+                                <span class="chatbot-link-icon">»</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Gemini -->
-                <div class="chatbot-card" data-chatbot="gemini">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <img src="images/gemini.jpeg" alt="Logo Gemini" onerror="this.parentElement.innerHTML='✨'">
-                        </div>
-                        <div>
+                <div class="flipcard" data-chatbot="gemini">
+                    <div class="flipcard-inner">
+                        <div class="flipcard-front">
+                            <div class="card-icon">
+                                <img src="images/gemini.jpeg" alt="Logo Gemini" onerror="this.parentElement.innerHTML='✨'">
+                            </div>
                             <h3 class="card-title">Gemini</h3>
                             <p class="card-company">Google</p>
+                            <span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
                         </div>
-                    </div>
-                    <div class="description">
-                        <p class="description-quote">« J'aime explorer, créer, imaginer. Je mélange les idées, je vois les choses différemment, j'essaie de nouvelles voies. »</p>
-                        <p class="description-profile">Pour les créatifs, les curieux, les esprits visuels.</p>
-                        <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="chatbot-link"></a>
+                        <div class="flipcard-back">
+                            <div class="back-header">
+                                <div class="back-icon">
+                                    <img src="images/gemini.jpeg" alt="" onerror="this.parentElement.innerHTML='✨'">
+                                </div>
+                                <span class="back-title">Gemini</span>
+                            </div>
+                            <p class="description-quote">« J'aime explorer, créer, imaginer. Je mélange les idées, je vois les choses différemment. »</p>
+                            <p class="description-profile">Pour les créatifs, les curieux, les esprits visuels.</p>
+                            <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="chatbot-link" onclick="event.stopPropagation()">
+                                <span class="chatbot-link-text">Essayer</span>
+                                <span class="chatbot-link-icon">»</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Mistral -->
-                <div class="chatbot-card" data-chatbot="mistral">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <img src="images/mistral.png" alt="Logo Mistral AI" onerror="this.parentElement.innerHTML='🌀'">
-                        </div>
-                        <div>
+                <div class="flipcard" data-chatbot="mistral">
+                    <div class="flipcard-inner">
+                        <div class="flipcard-front">
+                            <div class="card-icon">
+                                <img src="images/mistral.png" alt="Logo Mistral AI" onerror="this.parentElement.innerHTML='🌀'">
+                            </div>
                             <h3 class="card-title">Mistral AI</h3>
                             <p class="card-company">Mistral AI</p>
+                            <span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
                         </div>
-                    </div>
-                    <div class="description">
-                        <p class="description-quote">« J'aime quand c'est simple, clair, ouvert. Je partage, je construis avec les autres, j'aime que les choses avancent ensemble. »</p>
-                        <p class="description-profile">Pour ceux et celles qui aiment collaborer, améliorer, co-créer.</p>
-                        <a href="https://chat.mistral.ai" target="_blank" rel="noopener noreferrer" class="chatbot-link"></a>
+                        <div class="flipcard-back">
+                            <div class="back-header">
+                                <div class="back-icon">
+                                    <img src="images/mistral.png" alt="" onerror="this.parentElement.innerHTML='🌀'">
+                                </div>
+                                <span class="back-title">Mistral AI</span>
+                            </div>
+                            <p class="description-quote">« J'aime quand c'est simple, clair, ouvert. Je construis avec les autres. »</p>
+                            <p class="description-profile">Pour ceux et celles qui aiment collaborer, co-créer.</p>
+                            <a href="https://chat.mistral.ai" target="_blank" rel="noopener noreferrer" class="chatbot-link" onclick="event.stopPropagation()">
+                                <span class="chatbot-link-text">Essayer</span>
+                                <span class="chatbot-link-icon">»</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Claude -->
-                <div class="chatbot-card" data-chatbot="claude">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <img src="images/claude.png" alt="Logo Claude" onerror="this.parentElement.innerHTML='🎭'">
-                        </div>
-                        <div>
+                <div class="flipcard" data-chatbot="claude">
+                    <div class="flipcard-inner">
+                        <div class="flipcard-front">
+                            <div class="card-icon">
+                                <img src="images/claude.png" alt="Logo Claude" onerror="this.parentElement.innerHTML='🎭'">
+                            </div>
                             <h3 class="card-title">Claude</h3>
                             <p class="card-company">Anthropic</p>
+                            <span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
                         </div>
-                    </div>
-                    <div class="description">
-                        <p class="description-quote">« Je réfléchis beaucoup, peut-être un peu trop. J'aime comprendre en profondeur, prendre mon temps, nuancer, peser mes mots. »</p>
-                        <p class="description-profile">Pour les sensibles, les prudents, les personnes qui cherchent le sens.</p>
-                        <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="chatbot-link"></a>
+                        <div class="flipcard-back">
+                            <div class="back-header">
+                                <div class="back-icon">
+                                    <img src="images/claude.png" alt="" onerror="this.parentElement.innerHTML='🎭'">
+                                </div>
+                                <span class="back-title">Claude</span>
+                            </div>
+                            <p class="description-quote">« Je réfléchis beaucoup. J'aime comprendre en profondeur, nuancer, peser mes mots. »</p>
+                            <p class="description-profile">Pour les sensibles, les prudents, ceux qui cherchent le sens.</p>
+                            <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="chatbot-link" onclick="event.stopPropagation()">
+                                <span class="chatbot-link-text">Essayer</span>
+                                <span class="chatbot-link-icon">»</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Perplexity -->
-                <div class="chatbot-card" data-chatbot="perplexity">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <img src="images/perplexity.png" alt="Logo Perplexity AI" onerror="this.parentElement.innerHTML='🔍'">
-                        </div>
-                        <div>
+                <div class="flipcard" data-chatbot="perplexity">
+                    <div class="flipcard-inner">
+                        <div class="flipcard-front">
+                            <div class="card-icon">
+                                <img src="images/perplexity.png" alt="Logo Perplexity AI" onerror="this.parentElement.innerHTML='🔍'">
+                            </div>
                             <h3 class="card-title">Perplexity AI</h3>
                             <p class="card-company">Perplexity</p>
+                            <span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
                         </div>
-                    </div>
-                    <div class="description">
-                        <p class="description-quote">« Moi, je vérifie. J'aime comprendre ce qui est vrai, ce qui est faux. Je cherche, je compare, j'enquête. »</p>
-                        <p class="description-profile">Pour les rigoureux, les fact-checkers naturels, ceux qui veulent comprendre par eux-mêmes.</p>
-                        <a href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer" class="chatbot-link"></a>
+                        <div class="flipcard-back">
+                            <div class="back-header">
+                                <div class="back-icon">
+                                    <img src="images/perplexity.png" alt="" onerror="this.parentElement.innerHTML='🔍'">
+                                </div>
+                                <span class="back-title">Perplexity AI</span>
+                            </div>
+                            <p class="description-quote">« Moi, je vérifie. J'aime comprendre ce qui est vrai, ce qui est faux. J'enquête. »</p>
+                            <p class="description-profile">Pour les rigoureux, les fact-checkers naturels.</p>
+                            <a href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer" class="chatbot-link" onclick="event.stopPropagation()">
+                                <span class="chatbot-link-text">Essayer</span>
+                                <span class="chatbot-link-icon">»</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Copilot -->
-                <div class="chatbot-card" data-chatbot="copilot">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <img src="images/copilot.jpeg" alt="Logo Copilot" onerror="this.parentElement.innerHTML='💼'">
-                        </div>
-                        <div>
+                <div class="flipcard" data-chatbot="copilot">
+                    <div class="flipcard-inner">
+                        <div class="flipcard-front">
+                            <div class="card-icon">
+                                <img src="images/copilot.jpeg" alt="Logo Copilot" onerror="this.parentElement.innerHTML='💼'">
+                            </div>
                             <h3 class="card-title">Copilot</h3>
                             <p class="card-company">Microsoft</p>
+                            <span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
                         </div>
-                    </div>
-                    <div class="description">
-                        <p class="description-quote">« Je suis organisé, pratique, efficace. J'aime que les choses avancent, que le travail soit clair, que les outils servent vraiment à quelque chose. »</p>
-                        <p class="description-profile">Pour les pragmatiques, ceux qui aiment l'ordre et l'action.</p>
-                        <a href="https://copilot.microsoft.com" target="_blank" rel="noopener noreferrer" class="chatbot-link"></a>
+                        <div class="flipcard-back">
+                            <div class="back-header">
+                                <div class="back-icon">
+                                    <img src="images/copilot.jpeg" alt="" onerror="this.parentElement.innerHTML='💼'">
+                                </div>
+                                <span class="back-title">Copilot</span>
+                            </div>
+                            <p class="description-quote">« Je suis organisé, pratique, efficace. J'aime que les choses avancent. »</p>
+                            <p class="description-profile">Pour les pragmatiques, ceux qui aiment l'ordre et l'action.</p>
+                            <a href="https://copilot.microsoft.com" target="_blank" rel="noopener noreferrer" class="chatbot-link" onclick="event.stopPropagation()">
+                                <span class="chatbot-link-text">Essayer</span>
+                                <span class="chatbot-link-icon">»</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- DuckDuckGo -->
-                <div class="chatbot-card" data-chatbot="duckduckgo">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <img src="images/duckduckgo.png" alt="Logo DuckDuckGo AI Chat" onerror="this.parentElement.innerHTML='🦆'">
-                        </div>
-                        <div>
+                <div class="flipcard" data-chatbot="duckduckgo">
+                    <div class="flipcard-inner">
+                        <div class="flipcard-front">
+                            <div class="card-icon">
+                                <img src="images/duckduckgo.png" alt="Logo DuckDuckGo AI Chat" onerror="this.parentElement.innerHTML='🦆'">
+                            </div>
                             <h3 class="card-title">DuckDuckGo AI</h3>
                             <p class="card-company">DuckDuckGo</p>
+                            <span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
                         </div>
-                    </div>
-                    <div class="description">
-                        <p class="description-quote">« Je suis discret. Je fais mon truc sans me montrer, sans fouiller la vie des autres. Je respecte l'espace de chacun. »</p>
-                        <p class="description-profile">Pour les indépendants, les réservés, ceux qui valorisent la confidentialité.</p>
-                        <a href="https://duckduckgo.com/aichat" target="_blank" rel="noopener noreferrer" class="chatbot-link"></a>
+                        <div class="flipcard-back">
+                            <div class="back-header">
+                                <div class="back-icon">
+                                    <img src="images/duckduckgo.png" alt="" onerror="this.parentElement.innerHTML='🦆'">
+                                </div>
+                                <span class="back-title">DuckDuckGo AI</span>
+                            </div>
+                            <p class="description-quote">« Je suis discret. Je respecte l'espace de chacun, sans fouiller la vie des autres. »</p>
+                            <p class="description-profile">Pour les indépendants, ceux qui valorisent la confidentialité.</p>
+                            <a href="https://duckduckgo.com/aichat" target="_blank" rel="noopener noreferrer" class="chatbot-link" onclick="event.stopPropagation()">
+                                <span class="chatbot-link-text">Essayer</span>
+                                <span class="chatbot-link-icon">»</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- HuggingChat -->
-                <div class="chatbot-card" data-chatbot="huggingchat">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <img src="images/huggingchat.png" alt="Logo HuggingChat" onerror="this.parentElement.innerHTML='🤗'">
-                        </div>
-                        <div>
+                <div class="flipcard" data-chatbot="huggingchat">
+                    <div class="flipcard-inner">
+                        <div class="flipcard-front">
+                            <div class="card-icon">
+                                <img src="images/huggingchat.png" alt="Logo HuggingChat" onerror="this.parentElement.innerHTML='🤗'">
+                            </div>
                             <h3 class="card-title">HuggingChat</h3>
                             <p class="card-company">Hugging Face</p>
+                            <span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
                         </div>
-                    </div>
-                    <div class="description">
-                        <p class="description-quote">« Je suis ouvert, sociable, un peu idéaliste : j'aime partager, discuter, apprendre de tout le monde. »</p>
-                        <p class="description-profile">Pour les explorateurs, les généreux, les profils communautaires.</p>
-                        <a href="https://huggingface.co/chat" target="_blank" rel="noopener noreferrer" class="chatbot-link"></a>
+                        <div class="flipcard-back">
+                            <div class="back-header">
+                                <div class="back-icon">
+                                    <img src="images/huggingchat.png" alt="" onerror="this.parentElement.innerHTML='🤗'">
+                                </div>
+                                <span class="back-title">HuggingChat</span>
+                            </div>
+                            <p class="description-quote">« Je suis ouvert, sociable, idéaliste : j'aime partager, discuter, apprendre de tous. »</p>
+                            <p class="description-profile">Pour les explorateurs, les généreux, les communautaires.</p>
+                            <a href="https://huggingface.co/chat" target="_blank" rel="noopener noreferrer" class="chatbot-link" onclick="event.stopPropagation()">
+                                <span class="chatbot-link-text">Essayer</span>
+                                <span class="chatbot-link-icon">»</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Autre -->
-                <div class="chatbot-card" data-chatbot="autre">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <span class="autre-emoji">❓</span>
-                        </div>
-                        <div>
+                <div class="flipcard" data-chatbot="autre">
+                    <div class="flipcard-inner">
+                        <div class="flipcard-front">
+                            <div class="card-icon">
+                                <span class="autre-emoji">❓</span>
+                            </div>
                             <h3 class="card-title">Un autre outil...</h3>
                             <p class="card-company">Votre choix</p>
+                            <span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
                         </div>
-                    </div>
-                    <div class="description">
-                        <p class="description-quote">« Peut-être que tu n'es pas vraiment dans une case. Peut-être que tu es un mélange, ou complètement autre chose. C'est très bien aussi. »</p>
-                        <p class="description-profile">Pour ceux qui sortent des sentiers battus et créent leur propre chemin.</p>
+                        <div class="flipcard-back">
+                            <div class="back-header">
+                                <div class="back-icon">❓</div>
+                                <span class="back-title">Autre</span>
+                            </div>
+                            <p class="description-quote">« Peut-être que tu n'es pas vraiment dans une case. Tu es un mélange, ou autre chose. »</p>
+                            <p class="description-profile">Pour ceux qui sortent des sentiers battus et créent leur propre chemin.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -692,86 +795,19 @@
         </div>
     </div>
 
-    <button class="reset-btn" id="resetBtn"></button>
-
     <script>
-    let currentActiveCard = null;
+    document.addEventListener('DOMContentLoaded', function() {
+        const flipcards = document.querySelectorAll('.flipcard');
 
-    function initializeCards() {
-        const cards = document.querySelectorAll('.chatbot-card');
-        const resetBtn = document.getElementById('resetBtn');
-
-        cards.forEach(card => {
+        flipcards.forEach(card => {
             card.addEventListener('click', function(e) {
-                // Empêcher le clic sur le lien de fermer la carte
+                // Ne pas flipper si on clique sur un lien
                 if (e.target.closest('.chatbot-link')) return;
-                handleCardClick(this);
+                
+                this.classList.toggle('flipped');
             });
         });
-
-        if (resetBtn) {
-            resetBtn.addEventListener('click', resetAllCards);
-        }
-    }
-
-    function handleCardClick(card) {
-        const resetBtn = document.getElementById('resetBtn');
-        
-        if (currentActiveCard && currentActiveCard !== card) {
-            closeCard(currentActiveCard);
-        }
-
-        if (currentActiveCard === card) {
-            closeCard(card);
-            currentActiveCard = null;
-            resetBtn.classList.remove('show');
-        } else {
-            openCard(card);
-            currentActiveCard = card;
-            resetBtn.classList.add('show');
-            
-            setTimeout(() => {
-                card.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center' 
-                });
-            }, 100);
-        }
-    }
-
-    function openCard(card) {
-        card.classList.add('active');
-        const description = card.querySelector('.description');
-        if (description) {
-            description.classList.add('show');
-        }
-    }
-
-    function closeCard(card) {
-        card.classList.remove('active');
-        const description = card.querySelector('.description');
-        if (description) {
-            description.classList.remove('show');
-        }
-    }
-
-    function resetAllCards() {
-        const resetBtn = document.getElementById('resetBtn');
-        
-        if (currentActiveCard) {
-            closeCard(currentActiveCard);
-            currentActiveCard = null;
-        }
-        
-        resetBtn.classList.remove('show');
-        
-        window.scrollTo({ 
-            top: 0, 
-            behavior: 'smooth' 
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', initializeCards);
+    });
     </script>
 </body>
 </html>
