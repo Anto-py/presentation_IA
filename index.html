@@ -435,6 +435,46 @@
         }
 
         /* ===========================================
+           BOUTON RETOUR
+           =========================================== */
+        .return-button-container {
+            text-align: center;
+            margin-top: 32px;
+            padding: 20px;
+        }
+
+        .return-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--retro-teal), var(--retro-orange));
+            color: var(--retro-paper);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 50px;
+            border: 3px solid var(--retro-jaune);
+            box-shadow: 0 4px 16px rgba(228, 99, 46, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .return-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 24px rgba(228, 99, 46, 0.5);
+            border-color: var(--retro-paper);
+        }
+
+        .return-button-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .return-button:hover .return-button-icon {
+            transform: translateX(-4px);
+        }
+
+        /* ===========================================
            RESPONSIVE
            =========================================== */
         @media (max-width: 768px) {
@@ -792,6 +832,13 @@
             <footer class="footer">
                 <p>Formation IA · <a href="#">Ressources pédagogiques</a></p>
             </footer>
+
+            <div class="return-button-container">
+                <a href="https://borzeux.my.canva.site/intro-ia/si-jtais-une-ia" class="return-button">
+                    <span class="return-button-icon">←</span>
+                    <span>Retour à la formation</span>
+                </a>
+            </div>
         </div>
     </div>
 
