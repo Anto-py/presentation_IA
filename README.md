@@ -125,7 +125,7 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 
 ## 📝 Licence
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+Ce projet est sous licence Creative Commons Attribution, Pas d'utilisation commerciale, Partage dans les mêmes conditions 4.0 (CC BY-NC-SA 4.0). Voir le fichier `LICENSE`.
 
 ## 🙏 Remerciements
 

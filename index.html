@@ -49,27 +49,10 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1920&q=80');
+            background-image: url('images/fond_art_nouveau.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-        }
-
-        .vignette-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(
-                ellipse 80% 70% at 50% 50%,
-                rgba(13, 22, 23, 0.3) 0%,
-                rgba(13, 22, 23, 0.6) 40%,
-                rgba(13, 22, 23, 0.85) 70%,
-                rgba(13, 22, 23, 0.95) 100%
-            );
-            pointer-events: none;
         }
 
         /* ===========================================
@@ -503,8 +486,6 @@
 <body>
 <!-- Fond image -->
 <div class="background-layer"></div>
-<!-- Vignette overlay -->
-<div class="vignette-overlay"></div>
 <!-- Cadre Art Nouveau -->
 <div class="page-frame">
 <div class="page-frame-inner">
@@ -841,9 +822,8 @@
 </div>
 </div>
 <div class="ab-attribution" style="text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(128,128,128,0.25);font-size:0.8rem;opacity:0.65;">
-<a href="https://www.linkedin.com/in/antonin-bareau/" rel="noopener" style="font-weight:bold;color:inherit;text-decoration:none;" target="_blank">Antonin Bareau</a>
-   — 
-  <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" style="color:inherit;text-decoration:none;" target="_blank">Licence CC BY-SA 4.0</a>
+Made by <a href="https://www.linkedin.com/in/antonin-bareau/" rel="noopener" style="font-weight:bold;color:inherit;text-decoration:none;" target="_blank">Antonin Bareau</a> avec l’aide essentielle d’un ou plusieurs LLM ·
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" style="color:inherit;text-decoration:none;" target="_blank">Licence creative common : CC-by-nc-sa</a>
 </div></div>
 </div>
 <script>
