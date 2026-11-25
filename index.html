@@ -415,67 +415,6 @@
         }
 
         /* ===========================================
-           FOOTER
-           =========================================== */
-        .footer {
-            text-align: center;
-            margin-top: 60px;
-            padding: 24px;
-            color: var(--retro-teal);
-            font-size: 0.85rem;
-        }
-
-        .footer a {
-            color: var(--retro-orange);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .footer a:hover {
-            color: var(--retro-jaune);
-        }
-
-        /* ===========================================
-           BOUTON RETOUR
-           =========================================== */
-        .return-button-container {
-            text-align: center;
-            margin-top: 32px;
-            padding: 20px;
-        }
-
-        .return-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 28px;
-            background: linear-gradient(135deg, var(--retro-teal), var(--retro-orange));
-            color: var(--retro-paper);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 50px;
-            border: 3px solid var(--retro-jaune);
-            box-shadow: 0 4px 16px rgba(228, 99, 46, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .return-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 24px rgba(228, 99, 46, 0.5);
-            border-color: var(--retro-paper);
-        }
-
-        .return-button-icon {
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .return-button:hover .return-button-icon {
-            transform: translateX(-4px);
-        }
-
-        /* ===========================================
            RESPONSIVE
            =========================================== */
         @media (max-width: 768px) {
@@ -556,6 +495,9 @@
         .flipcard:nth-child(7) { animation-delay: 0.35s; }
         .flipcard:nth-child(8) { animation-delay: 0.4s; }
         .flipcard:nth-child(9) { animation-delay: 0.45s; }
+        .flipcard:nth-child(10) { animation-delay: 0.5s; }
+        .flipcard:nth-child(11) { animation-delay: 0.55s; }
+        .flipcard:nth-child(12) { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
@@ -795,6 +737,87 @@
 </div>
 </div>
 </div>
+<!-- DeepSeek -->
+<div class="flipcard" data-chatbot="deepseek">
+<div class="flipcard-inner">
+<div class="flipcard-front">
+<div class="card-icon">
+<img alt="Logo DeepSeek" onerror="this.parentElement.innerHTML='🐋'" src="images/deepseek.png"/>
+</div>
+<h3 class="card-title">DeepSeek</h3>
+<p class="card-company">DeepSeek</p>
+<span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
+</div>
+<div class="flipcard-back">
+<div class="back-header">
+<div class="back-icon">
+<img alt="" onerror="this.parentElement.innerHTML='🐋'" src="images/deepseek.png"/>
+</div>
+<span class="back-title">DeepSeek</span>
+</div>
+<p class="description-quote">« Je suis puissant et je ne coûte rien : pas d'abonnement, pas de barrière de prix. Je joue dans la cour des grands avec les moyens du bord. »</p>
+<p class="description-profile">Pour les économes, les débrouillards et les ambitieux qui veulent le meilleur sans passer à la caisse.</p>
+<a class="chatbot-link" href="https://chat.deepseek.com" onclick="event.stopPropagation()" rel="noopener noreferrer" target="_blank">
+<span class="chatbot-link-text">Essayer</span>
+<span class="chatbot-link-icon">»</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Meta AI -->
+<div class="flipcard" data-chatbot="meta_ai">
+<div class="flipcard-inner">
+<div class="flipcard-front">
+<div class="card-icon">
+<img alt="Logo Meta AI" onerror="this.parentElement.innerHTML='💬'" src="images/meta_ai.png"/>
+</div>
+<h3 class="card-title">Meta AI</h3>
+<p class="card-company">Meta</p>
+<span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
+</div>
+<div class="flipcard-back">
+<div class="back-header">
+<div class="back-icon">
+<img alt="" onerror="this.parentElement.innerHTML='💬'" src="images/meta_ai.png"/>
+</div>
+<span class="back-title">Meta AI</span>
+</div>
+<p class="description-quote">« Je suis déjà là où tu discutes avec tes amis, sur WhatsApp, Instagram ou Messenger. Pas besoin de me chercher, je suis toujours dans le coin. »</p>
+<p class="description-profile">Pour les sociables, ceux qui veulent tout sous la main, sans chichis.</p>
+<a class="chatbot-link" href="https://www.meta.ai" onclick="event.stopPropagation()" rel="noopener noreferrer" target="_blank">
+<span class="chatbot-link-text">Essayer</span>
+<span class="chatbot-link-icon">»</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Canva AI -->
+<div class="flipcard" data-chatbot="canva_ai">
+<div class="flipcard-inner">
+<div class="flipcard-front">
+<div class="card-icon">
+<img alt="Logo Canva AI" onerror="this.parentElement.innerHTML='🎨'" src="images/canva_ai.png"/>
+</div>
+<h3 class="card-title">Canva AI</h3>
+<p class="card-company">Canva (anciennement Leonardo.Ai)</p>
+<span class="flip-hint"><span class="flip-hint-icon">↻</span> Clique pour découvrir</span>
+</div>
+<div class="flipcard-back">
+<div class="back-header">
+<div class="back-icon">
+<img alt="" onerror="this.parentElement.innerHTML='🎨'" src="images/canva_ai.png"/>
+</div>
+<span class="back-title">Canva AI</span>
+</div>
+<p class="description-quote">« J'ai une imagination débordante. Donne-moi une idée, j'en fais une image, une affiche ou une présentation. »</p>
+<p class="description-profile">Pour les artistes dans l'âme, ceux qui pensent en images avant de penser en mots.</p>
+<a class="chatbot-link" href="https://www.canva.com/ai/" onclick="event.stopPropagation()" rel="noopener noreferrer" target="_blank">
+<span class="chatbot-link-text">Essayer</span>
+<span class="chatbot-link-icon">»</span>
+</a>
+</div>
+</div>
+</div>
 <!-- Autre -->
 <div class="flipcard" data-chatbot="autre">
 <div class="flipcard-inner">
@@ -816,15 +839,6 @@
 </div>
 </div>
 </div>
-</div>
-<footer class="footer">
-<p>Formation IA · <a href="#">Ressources pédagogiques</a></p>
-</footer>
-<div class="return-button-container">
-<a class="return-button" href="https://borzeux.my.canva.site/intro-ia/si-jtais-une-ia">
-<span class="return-button-icon">←</span>
-<span>Retour à la formation</span>
-</a>
 </div>
 <div class="ab-attribution" style="text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(128,128,128,0.25);font-size:0.8rem;opacity:0.65;">
 <a href="https://www.linkedin.com/in/antonin-bareau/" rel="noopener" style="font-weight:bold;color:inherit;text-decoration:none;" target="_blank">Antonin Bareau</a>

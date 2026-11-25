@@ -10,7 +10,7 @@ Ce projet propose une approche originale pour présenter les différents chatbot
 
 - **Interface interactive** : Cliquez sur chaque carte pour découvrir les détails
 - **Design moderne** : Interface responsive avec animations fluides
-- **9 chatbots présentés** :
+- **12 cartes présentées** :
   - ChatGPT (OpenAI)
   - Gemini (Google)
   - Claude (Anthropic)
@@ -19,6 +19,9 @@ Ce projet propose une approche originale pour présenter les différents chatbot
   - Copilot (Microsoft)
   - DuckDuckGo AI Chat
   - HuggingChat (Hugging Face)
+  - DeepSeek
+  - Meta AI
+  - Canva AI (anciennement Leonardo.Ai)
   - Option "Autre" pour les profils atypiques
 
 ## 🚀 Déploiement
